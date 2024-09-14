@@ -5,9 +5,6 @@ import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
 
-load_dotenv()
-gmaps = googlemaps.Client(key=os.getenv("GOOGLE_MAPS_API_KEY"))
-
 
 def calculate_distance(address1, address2):
     '''
@@ -20,6 +17,8 @@ def calculate_distance(address1, address2):
     Returns:
         distance (km): str
     '''
+    load_dotenv()
+    gmaps = googlemaps.Client(key=os.getenv("GOOGLE_MAPS_API_KEY"))
     start_location = gmaps.geocode(address1)[0]['geometry']['location']
     end_location = gmaps.geocode(address2)[0]['geometry']['location']
 
@@ -69,7 +68,7 @@ def is_match(user1_data, user2_data):
     return False
 
 
-def rank(user_data, matches_data):
+def rank_matches(user_data, matches_data):
     '''
     Rank based on the following:
         1. Distance between the start and end locations of the two users (in km)
@@ -130,5 +129,5 @@ if __name__ == "__main__":
     matches_data = df.iloc[1:]
 
     # Rank the matches
-    df_sorted = rank(user_data, matches_data)
+    df_sorted = rank_matches(user_data, matches_data)
     print(df_sorted)
