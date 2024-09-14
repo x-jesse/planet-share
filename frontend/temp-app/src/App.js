@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [data, setData] = useState(null);
-
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://your-api-url/endpoint');
-      const jsonData = await response.json();
-      setData(jsonData);
+      console.log('test')
+      let response = await fetch('http://127.0.0.1:5000/api/listall');
+      let jsonData = await response.json();
+      console.log('list all response: ', JSON.stringify(jsonData));
+
+      response = await fetch('http://127.0.0.1:5000/api/search?query=Jesse');
+      jsonData = await response.json();
+      console.log('search response: ', JSON.stringify(jsonData));
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -21,11 +24,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {data ? (
-          <p>{JSON.stringify(data)}</p>
-        ) : (
-          <p>Loading...</p>
-        )}
+        <p>Check the console for API response</p>
       </header>
     </div>
   );

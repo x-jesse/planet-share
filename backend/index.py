@@ -1,32 +1,51 @@
-from flask import Flask, jsonify
-from databricks import sql
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 import os
+import requests
 
 app = Flask(__name__)
+CORS(app)
 
-# Databricks connection parameters
-SERVER_HOSTNAME = os.getenv("DATABRICKS_SERVER_HOSTNAME")
-HTTP_PATH = os.getenv("DATABRICKS_HTTP_PATH")
-ACCESS_TOKEN = os.getenv("DATABRICKS_ACCESS_TOKEN")
+DATABRICKS_SERVER_HOSTNAME = os.getenv("DATABRICKS_SERVER_HOSTNAME")
+DATABRICKS_HTTP_PATH = os.getenv("DATABRICKS_HTTP_PATH")
+DATABRICKS_ACCESS_TOKEN = os.getenv("DATABRICKS_ACCESS_TOKEN")
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def app_root():
+    return jsonify({"message": "reached root"})
 
-@app.route('/query_data')
-def query_data():
-    try:
-        with sql.connect(server_hostname=SERVER_HOSTNAME,
-                         http_path=HTTP_PATH,
-                         access_token=ACCESS_TOKEN) as connection:
+def sql_query(query: str) -> dict:
+    """
+    """
+    headers = {
+        'Authorization': f'Bearer {DATABRICKS_ACCESS_TOKEN}'
+    }
 
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM your_table LIMIT 10")
-                result = cursor.fetchall()
+    url = f'https://{DATABRICKS_SERVER_HOSTNAME}/api/2.0/sql/statements/'
+    query = {
+        "warehouse_id": "d41b1963ad938947",
+        "statement": query,
+        "wait_timeout": "30s",
+        "on_wait_timeout": "CANCEL"
+    }
+    response = requests.post(url, headers=headers, json=query)
+    response.raise_for_status()
+    return jsonify(response.json())
 
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+@app.route('/api/listall')
+def list_all() -> dict:
+    """
+    """
+    return sql_query("SELECT * FROM examples")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/api/search')
+def search_name() -> dict:
+    """
+    """
+    name = request.args.get('name')
+    return sql_query(f"SELECT * FROM examples WHERE username LIKE '%{name}%'")
+
+@app.route('/api/matches')
+def get_matches(query: str) -> dict:
+    pass
+
