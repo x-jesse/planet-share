@@ -13,7 +13,7 @@ function App() {
       let jsonData = await response.json();
       console.log('list all response: ', JSON.stringify(jsonData));
 
-      response = await fetch('http://127.0.0.1:5000/api/search?query=Jesse');
+      response = await fetch('http://127.0.0.1:5000/api/search?name=Jesse');
       jsonData = await response.json();
       console.log('search response: ', JSON.stringify(jsonData));
     } catch (error) {

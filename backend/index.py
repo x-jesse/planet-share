@@ -3,6 +3,8 @@ from flask_cors import CORS
 import os
 import requests
 
+# from rank import rank
+
 app = Flask(__name__)
 CORS(app)
 
@@ -30,20 +32,24 @@ def sql_query(query: str) -> dict:
     }
     response = requests.post(url, headers=headers, json=query)
     response.raise_for_status()
-    return jsonify(response.json())
+    return response.json()
 
 @app.route('/api/listall')
 def list_all() -> dict:
     """
     """
-    return sql_query("SELECT * FROM examples")
+    result = sql_query("SELECT * FROM examples")
+    print(result)
+    return jsonify(result['result']['data_array'])
 
 @app.route('/api/search')
-def search_name() -> dict:
+def search() -> dict:
     """
     """
     name = request.args.get('name')
-    return sql_query(f"SELECT * FROM examples WHERE username LIKE '%{name}%'")
+    result = sql_query(f"SELECT * FROM examples WHERE username LIKE '%{name}%'")
+    return jsonify(result['result']['data_array'])
+
 
 @app.route('/api/matches')
 def get_matches(query: str) -> dict:
