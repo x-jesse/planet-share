@@ -53,10 +53,7 @@ def search() -> dict:
     db['departure_time'] = db['departure_time'].str.split('.').str[0]
 
     result = rank_matches(user_data, db)
-    print(result)
     return jsonify(result.to_dict(orient='records'))
 
-@app.route('/api/matches')
-def get_matches() -> dict:
-    pass
+
 
