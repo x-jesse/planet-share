@@ -31,6 +31,13 @@ def calculate_distance(address1, address2):
     route = directions_result[0]
     legs = route['legs'][0]
     distance = legs['distance']['text']
+    print(distance)
+    if distance.endswith('km'):
+        distance = distance[:-3]
+        distance = float(distance)
+    else:
+        distance = distance[:-2]
+        distance = float(distance) / 1000
 
     return distance
 
@@ -55,7 +62,6 @@ def is_match(user1_data, user2_data):
     # Check if user1 and user2 start and end within 3 km of each other
     start_difference = calculate_distance(user1_start_location, user2_start_location)
     end_difference = calculate_distance(user1_end_location, user2_end_location)
-    start_difference, end_difference = float(start_difference.split()[0]), float(end_difference.split()[0])
 
     # Get difference between departure times in minutes
     time_format = "%Y-%m-%dT%H:%M:%S"
@@ -113,9 +119,9 @@ def rank_matches(user_data, matches_data):
 
 
 if __name__ == "__main__":
-    with open('backend/examples.json', 'r') as file:
+    with open('./examples.json', 'r') as file:
         data = json.load(file)
-
+    
     # Create DataFrame
     df = pd.DataFrame(data)
 
@@ -127,7 +133,9 @@ if __name__ == "__main__":
     # Create sample dataframe
     user_data = df.iloc[0]
     matches_data = df.iloc[1:]
+    print(user_data)
+    print(matches_data)
 
     # Rank the matches
     df_sorted = rank_matches(user_data, matches_data)
-    print(df_sorted)
+    # print(df_sorted)

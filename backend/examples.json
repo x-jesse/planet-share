@@ -1,0 +1,44 @@
+[
+    {
+        "username": "Charles Yuan",
+        "vehicle_type": "gasoline",
+        "start_location": "5658 Glen Erin Drive, Mississauga, ON",
+        "end_location": "105 Commerce Valley Dr W, Markham, ON",
+        "departure_time": "2021-09-01T08:00:00"
+    },
+    {
+        "username": "Jesse Xia",
+        "vehicle_type": "hybrid",
+        "start_location": "5230 Glen Erin Drive, Mississauga, ON",
+        "end_location": "1 Commerce Valley Dr E, Thornhill, ON",
+        "departure_time": "2021-09-01T08:10:00"
+    },
+    {
+        "username": "Faye Mao",
+        "vehicle_type": "electric",
+        "start_location": "5658 Glen Erin Drive, Mississauga, ON",
+        "end_location": "150 Commerce Valley Dr W, Thornhill, ON",
+        "departure_time": "2021-09-01T07:50:00"
+    },
+    {
+        "username": "Victoria Sze",
+        "vehicle_type": "gasoline",
+        "start_location": "3115 Southwind Rd, Mississauga, ON",
+        "end_location": "19 Allstate Pkwy, Markham, ON L3R 5A4",
+        "departure_time": "2021-09-01T08:00:00"
+    },
+    {
+        "username": "Angie Wong",
+        "vehicle_type": "hybrid",
+        "start_location": "4879 Kimbermount Ave, Mississauga, ON",
+        "end_location": "8 The Seneca Way, Markham, ON",
+        "departure_time": "2021-09-01T07:55:00"
+    },
+    {
+        "username": "Jenny Li",
+        "vehicle_type": "electric",
+        "start_location": "3050 Erin Centre Blvd, Mississauga, ON",
+        "end_location": "16 Sims Crescent #7, Richmond Hill, ON",
+        "departure_time": "2021-09-01T08:05:00"
+    }
+]
