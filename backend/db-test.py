@@ -1,23 +1,5 @@
 import requests
 
-header = {
-    'Authorization': 'Bearer dapi490c4dcbc3c3b87a6212feeaa96b9e7e'
-}
-query = {
-  "query": {
-    "description": "test",
-    # "tags": [
-    #   "Tag 1"
-    # ],
-    "display_name": "Example query",
-    # "parent_path": "/Workspace/Users/user@acme.com",
-    "query_text": "SELECT 1",
-    "parameters": [
-    ],
-    "warehouse_id": "d41b1963ad938947",
-    "run_as_mode": "OWNER"
-  }
-}
 
 DATABRICKS_HOST = 'dbc-0e36dd7a-4a4d.cloud.databricks.com'
 DATABRICKS_ACCESS_TOKEN = 'dapi490c4dcbc3c3b87a6212feeaa96b9e7e'
