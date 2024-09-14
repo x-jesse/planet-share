@@ -42,11 +42,14 @@ def calculate_distance(address1, address2):
     return distance
 
 
-def is_match(user1_data, user2_data):
+def is_match(user1_data, user2_data, max_start_diff=3, max_end_diff=3, max_time_diff=10):
     '''
     Args: 
         user1_data: dict
         user2_data: dict
+        max_start_diff: int
+        max_end_diff: int
+        max_time_diff: int
 
     Returns:
         is_match: bool
@@ -69,12 +72,12 @@ def is_match(user1_data, user2_data):
     user2_departure_datetime = datetime.strptime(user2_departure_time, time_format)
     diff_in_minutes = (user1_departure_datetime - user2_departure_datetime).total_seconds() / 60
 
-    if start_difference <= 3 and end_difference <= 3 and diff_in_minutes <= 10:
+    if start_difference <= max_start_diff and end_difference <= max_end_diff and diff_in_minutes <= max_time_diff:
         return True
     return False
 
 
-def rank_matches(user_data, matches_data):
+def rank_matches(user_data, matches_data, max_start_diff, max_end_diff, max_time_diff):
     '''
     Rank based on the following:
         1. Distance between the start and end locations of the two users (in km)
@@ -84,6 +87,9 @@ def rank_matches(user_data, matches_data):
     Args:
         user_data: pd.Series
         matches_data: pd.DataFrame
+        max_start_diff: int
+        max_end_diff: int
+        max_time_diff: int
 
     Returns:
         df_sorted: pd.DataFrame
@@ -92,7 +98,7 @@ def rank_matches(user_data, matches_data):
     df = matches_data.copy()
 
     # Ensure matches are valid based on maximum distance diff and time diff
-    df = df[df.apply(lambda row: is_match(row, user_data), axis=1)]
+    df = df[df.apply(lambda row: is_match(row, user_data, max_start_diff, max_end_diff, max_time_diff), axis=1)]
 
     # Convert departure_time to datetime for both user_data and df
     user_departure_time = pd.to_datetime(user_data['departure_time'])
