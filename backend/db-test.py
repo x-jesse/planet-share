@@ -31,5 +31,12 @@ url = f'https://{DATABRICKS_HOST}/api/2.0/sql/queries'
 # response = requests.post(url, headers=headers, json=query)
 # print(response.json())
 
-url = f'https://{DATABRICKS_HOST}/api/2.0/sql/queries/7db045ef-cd4e-4f13-8bab-864a5772ba00'
-response = requests.get(url, headers=headers)
+url = f'https://{DATABRICKS_HOST}/api/2.0/sql/statements/'
+query = {
+  "warehouse_id": "d41b1963ad938947",
+  "statement": "SELECT * FROM D",
+  "wait_timeout": "30s",
+  "on_wait_timeout": "CANCEL"
+}
+response = requests.post(url, headers=headers, json=query)
+print(response.json())
