@@ -30,20 +30,22 @@ def sql_query(query: str) -> dict:
     }
     response = requests.post(url, headers=headers, json=query)
     response.raise_for_status()
-    return jsonify(response.json())
+    return response.json()
 
 @app.route('/api/listall')
 def list_all() -> dict:
     """
     """
-    return sql_query("SELECT * FROM examples")
+    return jsonify(sql_query("SELECT * FROM examples"))
 
 @app.route('/api/search')
-def search_name() -> dict:
+def search() -> dict:
     """
     """
     name = request.args.get('name')
-    return sql_query(f"SELECT * FROM examples WHERE username LIKE '%{name}%'")
+    result = sql_query(f"SELECT * FROM examples WHERE username LIKE '%{name}%'")
+    print(result)
+    return jsonify(result)
 
 @app.route('/api/matches')
 def get_matches(query: str) -> dict:
