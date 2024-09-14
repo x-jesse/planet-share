@@ -99,7 +99,7 @@ def rank(user_data, matches_data):
     df['distance'] = df['start_location_diff'] + df['end_location_diff']
 
     # Calculate the difference in departure times
-    df['time_diff'] = (df['departure_time'] - user_departure_time).dt.total_seconds() / 60
+    df['time_diff'] = abs((df['departure_time'] - user_departure_time).dt.total_seconds() / 60)
 
     # Create a numeric column for vehicle type sorting
     vehicle_type_order = {'electric': 2, 'hybrid': 1, 'gasoline': 0}
@@ -108,7 +108,7 @@ def rank(user_data, matches_data):
     # Sort the DataFrame and drop temp cols
     df_sorted = df.sort_values(by=['distance', 'time_diff', 'vehicle_type_numeric'], 
                                ascending=[True, True, False])
-    df_sorted = df_sorted.drop(['start_location_diff', 'end_location_diff', 'vehicle_type_numeric'], axis=1)
+    df_sorted = df_sorted.drop(['start_location_diff', 'end_location_diff', 'vehicle_type_numeric', 'time_diff'], axis=1)
 
     return df_sorted
 
