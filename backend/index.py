@@ -1,9 +1,8 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
 import os
 import requests
 import pandas as pd
-
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 from rank import rank_matches
 
 app = Flask(__name__)
@@ -16,6 +15,7 @@ DATABRICKS_ACCESS_TOKEN = os.getenv("DATABRICKS_ACCESS_TOKEN")
 @app.route('/')
 def app_root():
     return jsonify({"message": "reached root"})
+
 
 def sql_query(query: str) -> dict:
     """
@@ -35,28 +35,32 @@ def sql_query(query: str) -> dict:
     response.raise_for_status()
     return response.json()
 
-def list_all() -> dict:
+
+def list_all(vehicle_restriction) -> dict:
     """
+    Returns all the carpoolers in the database, after applying filters.
     """
-    result = sql_query("SELECT * FROM examples")
+    if vehicle_restriction:
+        result = sql_query("SELECT * FROM examples WHERE vehicle_type = '{}'".format(vehicle_restriction))
+    else:
+        result = sql_query("SELECT * FROM examples")
     return result['result']['data_array']
+
 
 @app.route('/api/search', methods=['POST'])
 def search() -> dict:
     """
+    Returns the existing carpoolers that match with the user's desired carpool trip.
     """
+    data = request.get_json()
+    max_start_diff, max_end_diff, max_time_diff, vehicle_restriction = data["max_start_diff"], data["max_end_diff"], data["max_time_diff"], data["vehicle_restriction"]
     args = [request.form['username'], request.form['start_location'], request.form['end_location'], request.form['departure_time'], request.form['vehicle_type']]
+
     user_data = pd.DataFrame([args], columns=['username', 'start_location', 'end_location', 'departure_time', 'vehicle_type'])
     user_data = user_data.squeeze()
 
-    db = pd.DataFrame(list_all(), columns=['departure_time', 'end_location', 'start_location', 'username', 'vehicle_type'])
+    db = pd.DataFrame(list_all(vehicle_restriction), columns=['departure_time', 'end_location', 'start_location', 'username', 'vehicle_type'])
     db['departure_time'] = db['departure_time'].str.split('.').str[0]
 
-    result = rank_matches(user_data, db)
-    print(result)
+    result = rank_matches(user_data, db, max_start_diff, max_end_diff, max_time_diff)
     return jsonify(result.to_dict(orient='records'))
-
-@app.route('/api/matches')
-def get_matches() -> dict:
-    pass
-
