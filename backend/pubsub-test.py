@@ -37,8 +37,8 @@ async def chat_send():
     userid = data.get('userid')
     message = data.get('message')
 
-    channel = ably.channels.get('get-started')
-    await channel.publish('first', message)
+    channel = ably.channels.get('test-channel')
+    await channel.publish('temp', message)
     print('Message sent')
     return 'Message sent'
 
@@ -47,10 +47,10 @@ async def chat_receive():
     data = await request.get_json()
     userid = data.get('userid')
 
-    channel = ably.channels.get('get-started')
+    channel = ably.channels.get('test-channel')
     def listener(message):
         print('Message received: ' + message.data)
-    await channel.subscribe('first', listener)
+    await channel.subscribe('temp', listener)
     print('listener registered')
     return 'Message received'
 
