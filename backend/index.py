@@ -1,12 +1,9 @@
 import os
 import requests
 import pandas as pd
-from flask import Flask, jsonify, request
 from rank import rank_matches
 from supabase import create_client
-import asyncio
-import time
-from quart import Quart, websocket
+from quart import Quart, websocket, request, jsonify
 from quart_cors import cors
 from ably import AblyRealtime
 from dotenv import load_dotenv
@@ -103,33 +100,32 @@ def search() -> dict:
     return jsonify(result.to_dict(orient='records')), 200
 
 
-@app.route('/api/chat/receive/<userid>', methods=['GET'])
-async def chat_receive(userid):
-    """Receives messages from chat from a specific user, requires userid"""
-    channel = ably.channels.get(userid)
-    messages = []
-
-    def listener(message):
-        messages.append(message.data)
-        print('Message received:', message.data)
-
-    await channel.subscribe('message', listener)
-
-    await asyncio.sleep(5)
-
-    await channel.unsubscribe('message', listener)
-
-    return jsonify({"messages": messages}), 200
-
 @app.route('/api/chat/send', methods=['POST'])
 async def chat_send():
+    """
+    Sends a message to the user's channel.
+    """
     data = await request.get_json()
-    userid = data.get('username')
+    userid = data.get('userid')
     message = data.get('message')
 
-    channel = ably.channels.get(userid)
-    await channel.publish('message', {'userid': userid, 'message': message})
+    channel = ably.channels.get(str(userid))
+    await channel.publish('new_message', message)
+    return 'Message sent.'
 
-    return jsonify({"status": "Message sent"}), 201
 
+@app.route('/api/chat/receive', methods=['POST'])
+async def chat_receive():
+    """
+    Listens for new messages from the user's channel.
+    """
+    data = await request.get_json()
+    userid = data.get('userid')
 
+    channel = ably.channels.get(str(userid))
+    def listener(message):
+        print('Message received: ' + message.data)
+    await channel.subscribe('new_message', listener)
+    return 'Listening...'
+
+app.run(debug=True)

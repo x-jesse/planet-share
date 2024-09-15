@@ -31,29 +31,6 @@ async def index():
     print('Hello, World!')
     return 'asdfdasf'
 
-@app.route('/api/chat/send', methods=['POST'])
-async def chat_send():
-    data = await request.get_json()
-    userid = data.get('userid')
-    message = data.get('message')
-
-    channel = ably.channels.get('test-channel')
-    await channel.publish('temp', message)
-    print('Message sent')
-    return 'Message sent'
-
-@app.route('/api/chat/receive', methods=['POST'])
-async def chat_receive():
-    data = await request.get_json()
-    userid = data.get('userid')
-
-    channel = ably.channels.get('test-channel')
-    def listener(message):
-        print('Message received: ' + message.data)
-    await channel.subscribe('temp', listener)
-    print('listener registered')
-    return 'Message received'
-
 @app.route('/api/test', methods=['GET'])
 async def test():
     return 'Hello, World!'
