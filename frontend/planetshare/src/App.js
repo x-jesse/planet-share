@@ -3,6 +3,7 @@ import { useTheme, ThemeProvider } from "@mui/material";
 import theme from "./themes/theme";
 import Main from "./pages/Main";
 import "./App.css";
+import PlanetShare from "./components/PlanetShare/PlanetShare";
 
 function App() {
   useEffect(() => {
@@ -25,9 +26,10 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Main />
-    </ThemeProvider>
+    // <ThemeProvider theme={theme}>
+    //   <Main />
+    // </ThemeProvider>
+    <PlanetShare />
   );
 }
 
