@@ -54,6 +54,10 @@ def is_match(user1_data, user2_data, max_start_diff=3, max_end_diff=3, max_time_
     Returns:
         is_match: bool
     '''
+    max_start_diff = float(max_start_diff)
+    max_end_diff = float(max_end_diff)
+    max_time_diff = float(max_time_diff)
+
     user1_start_location = user1_data["start_location"]
     user1_end_location = user1_data["end_location"]
     user1_departure_time = user1_data["departure_time"]
