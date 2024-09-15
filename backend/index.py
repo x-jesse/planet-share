@@ -2,8 +2,7 @@ import os
 import requests
 import pandas as pd
 from rank import rank_matches
-from supabase import create_client
-from quart import Quart, websocket, request, jsonify
+from quart import Quart, request, jsonify
 from quart_cors import cors
 from ably import AblyRealtime
 from dotenv import load_dotenv
@@ -17,19 +16,16 @@ DATABRICKS_SERVER_HOSTNAME = os.environ.get("DATABRICKS_SERVER_HOSTNAME")
 DATABRICKS_HTTP_PATH = os.environ.get("DATABRICKS_HTTP_PATH")
 DATABRICKS_ACCESS_TOKEN = os.environ.get("DATABRICKS_ACCESS_TOKEN")
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-print('connected to supabase')
+ABLY_API_KEY = os.environ.get("ABLY_API_KEY")
 
 ably = None
 
 @app.before_serving
 async def startup():
     global ably
-    ably = AblyRealtime(os.environ.get('ABLY_API_KEY'))
+    ably = AblyRealtime(ABLY_API_KEY)
     await ably.connection.once_async('connected')
-    print('Connected to Ably')
+    print('Connected to Ably.')
 
 
 @app.after_serving
@@ -46,6 +42,7 @@ def app_root():
 
 def sql_query(query: str) -> dict:
     """
+    Executes a SQL query on the Databricks server.
     """
     headers = {
         'Authorization': f'Bearer {DATABRICKS_ACCESS_TOKEN}'
