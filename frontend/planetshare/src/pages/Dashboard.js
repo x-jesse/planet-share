@@ -9,6 +9,7 @@ import {
   Container,
   Paper,
 } from "@mui/material";
+
 const Dashboard = () => {
   const user = "Username";
 
@@ -38,6 +39,9 @@ const Dashboard = () => {
         sx={{
           p: 4,
           mt: 8,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom>
@@ -59,15 +63,15 @@ const Dashboard = () => {
               label="Start Time"
               type="time"
               value={startTime}
+              variant="outlined"
               onChange={(e) => setStartTime(e.target.value)}
-              InputLabelProps={{ shrink: true }}
             />
             <TextField
               label="End Time"
               type="time"
               value={endTime}
+              variant="outlined"
               onChange={(e) => setEndTime(e.target.value)}
-              InputLabelProps={{ shrink: true }}
             />
           </Box>
           <Box sx={{ mt: 3 }}>
@@ -85,10 +89,20 @@ const Dashboard = () => {
                   value={day}
                   aria-label={day}
                   sx={{
-                    borderRadius: "50%",
+                    borderRadius: "100%",
                     minWidth: "40px",
                     height: "40px",
                     m: 0.5,
+                    "&.Mui-selected": {
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      "&:hover, &:focus": {
+                        backgroundColor: "primary.main",
+                      },
+                    },
+                    "&:hover": {
+                      backgroundColor: "secondary.main",
+                    },
                   }}
                 >
                   {day}

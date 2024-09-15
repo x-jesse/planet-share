@@ -11,8 +11,9 @@ const PageContainer = ({ children, ...props }) => {
       <Box
         component="main"
         sx={{
-          width: { xs: "88vw", sm: "92vw", md: "auto" },
           backgroundColor: theme.palette.background.default,
+          height: "100vh",
+          width: "100%",
         }}
         {...props}
       >

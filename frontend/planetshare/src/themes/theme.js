@@ -150,29 +150,6 @@ const theme = createTheme({
         },
       ],
     },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          "&[data-darker='true'] [aria-invalid='true']": {
-            borderColor: errorDark,
-          },
-          "&[data-darker='true'] [aria-invalid='true']:focus": {
-            outline: `0.15rem solid ${errorDark}`,
-          },
-          input: {
-            background: "white",
-            borderRadius: "1em",
-            "&[aria-invalid='true']": {},
-            "&:focus": {
-              outline: `0.15rem solid ${darkerBlue}`,
-            },
-            "& + .MuiOutlinedInput-notchedOutline": {
-              border: "none",
-            },
-          },
-        },
-      },
-    },
     MuiSelect: {
       styleOverrides: {
         root: {
