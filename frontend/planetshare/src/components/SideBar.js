@@ -344,10 +344,10 @@ const SideBar = () => {
         <NavItem href="/chat">
           <MessageSquare /> Conversations
         </NavItem>
-        <NavItem href="#">
+        <NavItem href="/dashboard">
           <Settings /> Settings
         </NavItem>
-        <NavItem href="#">
+        <NavItem href="/dashboard">
           <User /> Profile
         </NavItem>
         <NavItem href="/">
