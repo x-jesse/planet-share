@@ -341,7 +341,7 @@ const SideBar = () => {
           alignContent: "end",
         }}
       >
-        <NavItem href="#">
+        <NavItem href="/chat">
           <MessageSquare /> Conversations
         </NavItem>
         <NavItem href="#">
@@ -350,7 +350,7 @@ const SideBar = () => {
         <NavItem href="#">
           <User /> Profile
         </NavItem>
-        <NavItem href="#">
+        <NavItem href="/">
           <LogOut /> Log Out
         </NavItem>
       </nav>
