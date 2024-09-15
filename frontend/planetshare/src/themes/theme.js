@@ -1,21 +1,21 @@
 import { common } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
-const lightBlue = "#9DE0F8";
-const midBlue = "#0E6BA8";
+const green = "#31A37F";
+const lightGreen = "#BEDD9A";
 const darkBlue = "#2B4F70";
 const darkerBlue = "#085492";
 const errorLight = "#eb5757";
 const errorDark = "#b51919";
 const lightGrey = "#4F4F4F";
 
-const baseTheme = createTheme({
+const theme = createTheme({
   palette: {
     primary: {
-      main: "#0d1120",
+      main: green,
     },
     secondary: {
-      main: midBlue,
+      main: lightGreen,
     },
     success: {
       main: "#2e7d32",
@@ -32,17 +32,14 @@ const baseTheme = createTheme({
     background: {
       default: "#F3F9FF",
     },
-    lightBlue: {
-      main: lightBlue,
+    yellow: {
+      main: "#FDCE63",
     },
-    backgroundBlue: {
-      main: "#F3F9FF",
+    red: {
+      main: "#FD6F62",
     },
-    darkBlue: {
-      main: darkBlue,
-    },
-    darkerBlue: {
-      main: darkerBlue,
+    text: {
+      main: "#1E1E1E",
     },
     lightGrey: {
       main: lightGrey,
@@ -75,7 +72,6 @@ const baseTheme = createTheme({
       fontStyle: "normal",
       fontWeight: 700,
       lineHeight: "normal",
-      color: midBlue,
     },
     body: {
       fontFamily: "Raleway, sans-serif",
@@ -91,12 +87,17 @@ const baseTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: "1rem",
+          borderRadius: "1.8rem",
           borderWidth: "0.15rem",
-          padding: "0.53rem 1.5rem 0.6em",
+          padding: "0.25rem 2rem",
+          boxShadow: "none",
           textTransform: "none",
           "&:hover, &:focus": {
             borderWidth: "0.15rem",
+            boxShadow: "none",
+            color: green,
+            border: `0.15rem solid ${lightGreen}`,
+            background: lightGreen,
           },
         },
       },
@@ -104,30 +105,21 @@ const baseTheme = createTheme({
         {
           props: { variant: "contained" },
           style: {
-            background: midBlue,
-            border: `0.15rem solid ${midBlue}`,
-            boxShadow:
-              "0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08)",
-            color: "white",
+            background: "#ffffff",
+            border: `0.15rem solid #ffffff`,
+            color: green,
             "&:hover": {
-              border: `0.15rem solid ${darkerBlue}`,
-              background: darkerBlue,
+              color: green,
+              border: `0.15rem solid ${lightGreen}`,
+              background: lightGreen,
             },
           },
         },
         {
           props: { variant: "outlined" },
           style: {
-            border: `0.15rem solid ${midBlue}`,
-            color: midBlue,
-            "&.darker": {
-              color: darkerBlue,
-            },
-            "&:hover": {
-              background: midBlue,
-              color: common.white,
-              borderColor: midBlue,
-            },
+            border: `0.15rem solid #ffffff`,
+            color: common.white,
           },
         },
       ],
@@ -150,8 +142,6 @@ const baseTheme = createTheme({
         {
           props: { variant: "elevation", elevation: 24 },
           style: {
-            background: lightBlue,
-            border: `0.075rem solid ${midBlue}`,
             borderRadius: "1.25rem",
             boxShadow: "10px 12px 24px 0px rgba(161, 175, 189, 0.5)",
           },
@@ -169,11 +159,8 @@ const baseTheme = createTheme({
           },
           input: {
             background: "white",
-            border: `0.075rem solid ${midBlue}`,
             borderRadius: "1em",
-            "&[aria-invalid='true']": {
-              borderColor: errorLight,
-            },
+            "&[aria-invalid='true']": {},
             "&:focus": {
               outline: `0.15rem solid ${darkerBlue}`,
             },
@@ -201,15 +188,9 @@ const baseTheme = createTheme({
             borderRadius: "0.3em",
           },
           "&.signup-select.MuiOutlinedInput-root": {
-            "& fieldset": {
-              border: `0.15em solid ${midBlue}`,
-            },
-            "&:hover fieldset": {
-              borderColor: midBlue,
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: midBlue,
-            },
+            "& fieldset": {},
+            "&:hover fieldset": {},
+            "&.Mui-focused fieldset": {},
           },
         },
       },
@@ -240,7 +221,6 @@ const baseTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "1rem",
-          border: `0.075rem solid ${lightBlue}`,
           boxShadow: "0.625rem 0.75rem 1.5rem 0 rgba(206, 222, 238, 0.5)",
           textAlign: "left",
           ".MuiCardHeader-root, .MuiCardContent-root, .MuiCardActions-root": {
@@ -249,7 +229,6 @@ const baseTheme = createTheme({
           },
           "&:focus-within, &:hover": {
             boxShadow: "0.625rem 1rem 2rem 0 rgba(206, 222, 238, 0.75)",
-            borderColor: midBlue,
           },
         },
       },
@@ -319,3 +298,5 @@ const baseTheme = createTheme({
     },
   },
 });
+
+export default theme;
