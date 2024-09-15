@@ -36,7 +36,7 @@ def sql_query(query: str) -> dict:
     return response.json()
 
 
-def list_all(vehicle_restriction) -> dict:
+def list_all(vehicle_restriction=None) -> dict:
     """
     Returns all the carpoolers in the database, after applying filters.
     """
@@ -52,8 +52,7 @@ def search() -> dict:
     """
     Returns the existing carpoolers that match with the user's desired carpool trip.
     """
-    data = request.get_json()
-    max_start_diff, max_end_diff, max_time_diff, vehicle_restriction = data["max_start_diff"], data["max_end_diff"], data["max_time_diff"], data["vehicle_restriction"]
+    max_start_diff, max_end_diff, max_time_diff, vehicle_restriction = request.form['max_start_diff'], request.form['max_end_diff'], request.form['max_time_diff'], request.form['vehicle_restriction']
     args = [request.form['username'], request.form['start_location'], request.form['end_location'], request.form['departure_time'], request.form['vehicle_type']]
 
     user_data = pd.DataFrame([args], columns=['username', 'start_location', 'end_location', 'departure_time', 'vehicle_type'])
