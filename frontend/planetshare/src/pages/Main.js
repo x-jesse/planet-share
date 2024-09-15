@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 const Main = () => {
   return (
@@ -12,8 +12,11 @@ const Main = () => {
       gap="2rem"
       backgroundColor="primary.main"
     >
-      <h1>PlanetShare</h1>
-      <button>Hello</button>
+      <h1 style={{ color: "#ffffff" }}>PlanetShare</h1>
+      <Box display="flex" flexDirection="column" gap={"1rem"}>
+        <Button variant="contained">Sign Up</Button>
+        <Button variant="outlined">Log In</Button>
+      </Box>
     </Box>
   );
 };
