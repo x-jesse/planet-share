@@ -3,6 +3,7 @@ import { useTheme, ThemeProvider } from "@mui/material";
 import theme from "./themes/theme";
 import Main from "./pages/Main";
 import Dashboard from "./pages/Dashboard";
+import PlanetShare from "./pages/PlanetShare";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -31,7 +32,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<PlanetShare />} />
         </Routes>
       </Router>
     </ThemeProvider>
