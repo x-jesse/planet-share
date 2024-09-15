@@ -7,7 +7,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-<img src="./mobile_figma.png" alt="image" width="500" height="500">
+<img src="./mobile_figma.png" alt="image">
 
 <img src="./image.png" alt="image">
 
