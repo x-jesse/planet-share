@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
+import Dashboard from "./Dashboard";
 
 const Main = () => {
   const { loginWithRedirect, user } = useAuth0();
@@ -23,7 +24,7 @@ const Main = () => {
     if (!user) {
       loginWithRedirect({
         screen_hint: "signup",
-        redirectUri: `${window.location.origin}`,
+        redirectUri: `${window.location.origin}/dashboard`,
       });
       return;
     }
