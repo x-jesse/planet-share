@@ -2,15 +2,45 @@ import os
 import requests
 import pandas as pd
 from flask import Flask, jsonify, request
-from flask_cors import CORS
 from rank import rank_matches
+from supabase import create_client
+import asyncio
+import time
+from quart import Quart, websocket
+from quart_cors import cors
+from ably import AblyRealtime
+from dotenv import load_dotenv
 
-app = Flask(__name__)
-CORS(app)
+load_dotenv()
 
-DATABRICKS_SERVER_HOSTNAME = os.getenv("DATABRICKS_SERVER_HOSTNAME")
-DATABRICKS_HTTP_PATH = os.getenv("DATABRICKS_HTTP_PATH")
-DATABRICKS_ACCESS_TOKEN = os.getenv("DATABRICKS_ACCESS_TOKEN")
+app = Quart(__name__)
+app = cors(app, allow_origin="*")
+
+DATABRICKS_SERVER_HOSTNAME = os.environ.get("DATABRICKS_SERVER_HOSTNAME")
+DATABRICKS_HTTP_PATH = os.environ.get("DATABRICKS_HTTP_PATH")
+DATABRICKS_ACCESS_TOKEN = os.environ.get("DATABRICKS_ACCESS_TOKEN")
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+print('connected to supabase')
+
+ably = None
+
+@app.before_serving
+async def startup():
+    global ably
+    ably = AblyRealtime(os.environ.get('ABLY_API_KEY'))
+    await ably.connection.once_async('connected')
+    print('Connected to Ably')
+
+
+@app.after_serving
+async def shutdown():
+    global ably
+    await ably.close()
+    print('Closed the connection to Ably.')
+
 
 @app.route('/')
 def app_root():
@@ -70,4 +100,36 @@ def search() -> dict:
     db['departure_time'] = db['departure_time'].str.split('.').str[0]
 
     result = rank_matches(user_data, db, args['max_start_diff'], args['max_end_diff'], args['max_time_diff'])
-    return jsonify(result.to_dict(orient='records'))
+    return jsonify(result.to_dict(orient='records')), 200
+
+
+@app.route('/api/chat/receive/<userid>', methods=['GET'])
+async def chat_receive(userid):
+    """Receives messages from chat from a specific user, requires userid"""
+    channel = ably.channels.get(userid)
+    messages = []
+
+    def listener(message):
+        messages.append(message.data)
+        print('Message received:', message.data)
+
+    await channel.subscribe('message', listener)
+
+    await asyncio.sleep(5)
+
+    await channel.unsubscribe('message', listener)
+
+    return jsonify({"messages": messages}), 200
+
+@app.route('/api/chat/send', methods=['POST'])
+async def chat_send():
+    data = await request.get_json()
+    userid = data.get('username')
+    message = data.get('message')
+
+    channel = ably.channels.get(userid)
+    await channel.publish('message', {'userid': userid, 'message': message})
+
+    return jsonify({"status": "Message sent"}), 201
+
+
