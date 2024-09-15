@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useTheme, ThemeProvider } from "@mui/material";
 import theme from "./themes/theme";
 import Main from "./pages/Main";
+import Dashboard from "./pages/Dashboard";
+import PlanetShare from "./pages/PlanetShare";
 import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   useEffect(() => {
@@ -26,7 +29,12 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Main />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/dashboard" element={<PlanetShare />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 }

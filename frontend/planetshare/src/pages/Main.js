@@ -1,7 +1,35 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react";
+import Dashboard from "./Dashboard";
 
 const Main = () => {
+  const { loginWithRedirect, user } = useAuth0();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      loginWithRedirect({
+        screen_hint: "login",
+        redirectUri: `${window.location.origin}`,
+      });
+      return;
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      loginWithRedirect({
+        screen_hint: "signup",
+        redirectUri: `${window.location.origin}/dashboard`,
+      });
+      return;
+    }
+  };
+
   return (
     <Box
       display="flex"
@@ -14,8 +42,9 @@ const Main = () => {
     >
       <h1 style={{ color: "#ffffff" }}>PlanetShare</h1>
       <Box display="flex" flexDirection="column" gap={"1rem"}>
-        <Button variant="contained">Sign Up</Button>
-        <Button variant="outlined">Log In</Button>
+        <Button onClick={handleSignup} component="a" variant="contained">
+          Get Started
+        </Button>
       </Box>
     </Box>
   );
