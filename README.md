@@ -1,11 +1,8 @@
 # htn 2024
 
-setup venv pls
+Made using React, Quart + Ably for real-time messaging, Databricks, Auth0
 
-```
-python3 -m venv venv
-source venv/bin/activate
-```
+Check it on devpost: https://devpost.com/software/planetshare
 
 <img src="./mobile_figma.png" alt="image">
 
