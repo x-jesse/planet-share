@@ -1,4 +1,4 @@
-# htn 2024
+# HTN 2024
 
 Made using React, Quart + Ably for real-time messaging, Databricks, Auth0
 
