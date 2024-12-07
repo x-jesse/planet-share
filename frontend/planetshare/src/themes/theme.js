@@ -8,6 +8,7 @@ const darkerBlue = "#085492";
 const errorLight = "#eb5757";
 const errorDark = "#b51919";
 const lightGrey = "#4F4F4F";
+const black = "1E1E1E";
 
 const theme = createTheme({
   palette: {
@@ -30,7 +31,7 @@ const theme = createTheme({
       main: "#ed6c02",
     },
     background: {
-      default: "#F3F9FF",
+      default: "#FCFFF5",
     },
     yellow: {
       main: "#FDCE63",
@@ -54,6 +55,7 @@ const theme = createTheme({
     fontWeightBold: 700,
     fontWeightMedium: 500,
     fontWeightRegular: 400,
+    color: black,
     h1: {
       fontSize: "2.5rem",
       fontStyle: "normal",
